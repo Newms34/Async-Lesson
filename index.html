@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JavaScript and Async</title>
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+</head>
+
+<body>
+    <h3>Asynchronous JavaScript</h3>
+    <p class='desc' style='width:50%'>NOTE: for this demo, we're using the Yahoo Weather API. I'm just going to ask for the current high temp and condition for each city I put in. Also, I'm simplifying the code a bit.</p>
+    <div class='testDiv'>
+        <h4>Single Synchronous</h4>
+        <p class='desc'>First, we'll look at synchronous JavaScript (and, specifically, why it doesn't work!). For this first block, a single synchronous request. Our code:</p>
+        <pre>function singleSync(){
+    var weatherUrl = 'weatherAPI.com?city=PhiladelphiaPA';
+    var weatherResult;
+    $.get(weatherUrl,function(results){
+      weatherResult = results.data;
+    })
+    $('#resultsBlock').html(weatherResult);
+  }</pre>
+        <p>
+            <button onclick='weathSync()'>Run it!</button>
+        </p>
+    </div>
+    <div class='testDiv'>
+        <h4>Multiple Synchronous</h4>
+        <p class='desc'>Let's try that again, but with multiple requests. Our code:</p>
+        <pre>function multiSync(){
+  var cities = ['Philadelphia,PA', 'Phoenix, AZ', 'Norilsk', 'New Delhi', 'London,UK'];
+  var weathers = [];
+    for (var i=0;i&lt;cities.length;i++){
+      var weatherUrl = 'weatherAPI.com?city='+cities[i];
+      $.get(weatherUrl,function(results){
+        weathers.push(results.data);
+      })
+    }
+    /*Let's just assume the fn below takes an
+    array and returns an HTML table.*/
+    var theTable = makeTable(weathers);
+    $('#resultsBlock').html(theTable);
+  }</pre>
+        <p>
+            <button onclick='weathMultiSync()'>Run it!</button>
+        </p>
+    </div>
+    <div class='testDiv'>
+        <h4>Single Asynchronous</h4>
+        <p class='desc'>Now we'll try with callbacks! Our code:</p>
+        <pre>function singleAsync(){
+  var weatherUrl = 'weatherAPI.com?city=PhiladelphiaPA';
+  var weatherResult;
+    $.get(weatherUrl,function(result){
+      $('#resultsBlock').html(result.data);
+    })
+  }</pre>
+        <p>
+            <button onclick='weathAsync()'>Run it!</button>
+        </p>
+    </div>
+    <div class='testDiv'>
+        <h4>Multiple Asynchronous, With Callbacks</h4>
+        <p class='desc'>Now we'll try with callbacks! Our code:</p>
+        <pre>function multiAsyncCB(){
+  var cities = ['Philadelphia,PA', 'Phoenix, AZ', 'Norilsk', 'New Delhi', 'London,UK'];
+  var weathers = [];
+      $.get( 'weatherAPI.com?city='+cities[0],function(results){
+        weathers.push(results.data);
+        $.get( 'weatherAPI.com?city='+cities[1],function(results){
+          weathers.push(results.data);
+          $.get( 'weatherAPI.com?city='+cities[2],function(results){
+            weathers.push(results.data);
+            $.get( 'weatherAPI.com?city='+cities[3],function(results){
+              weathers.push(results.data);
+              $.get( 'weatherAPI.com?city='+cities[4],function(results){
+                weathers.push(results.data);
+                  var theTable = makeTable(weathers);
+                  $('#resultsBlock').html(theTable);)
+              })
+            })
+          })
+        })
+      })
+
+  }</pre>
+        <p>
+            <button onclick='weathMultiAsyncCb()'>Run it!</button>
+        </p>
+    </div>
+    <div class='testDiv'>
+        <h4>Multiple Asynchronous, With Promises/Q</h4>
+        <p class='desc'>Let's get rid of those horrible callbacks! Note that for this demo, I'm stickin an invalid request too! Our code:</p>
+        <pre>function multiAsyncPromQ(){
+			  var cities = ['Philadelphia,PA', 'Phoenix, AZ', 'Norilsk', 'New Delhi', 'London,UK'];
+			  var weathers = [];
+			  var weatherProms = [];
+			  for (var i=0;i&lt;cities.length;i++){
+			  	/*we're pushing in the asynchronous operation here.
+			  	note that we're NOT using a callback here. Instead, we're
+			  	essentially saying 'push in this PROMISE that a result will
+			  	eventually return'.
+			  	*/
+			  	weatherProms.push($.get('weatherAPI.com?city='+cities[i]))
+			  }
+			  Q.allSettled(weatherProms).then(function(res){
+			  	for (var n=0; n&lt;res.length;n++){
+			  		if(res.state=='settled'){
+			  			weathers.push(res[n].data);
+			  		}else{
+			  			weathers.push('Uh oh!')
+			  		}
+			  	}
+			  	var theTable = makeTable(weathers);
+                $('#resultsBlock').html(theTable);)
+			  })
+  		}</pre>
+        <p>
+            <button onclick='weathMultiAsyncPromQ()'>Run it!</button>
+        </p>
+    </div>
+    <div id='report'>
+        <h4>Method:</h4>
+        <p id='reportType'>None yet!</p>
+        <h4>Status</h4>
+        <p id='reportStat'>N/A</p>
+        <h4>Result:</h4>
+        <p id='reportBlok'>None yet!</p>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="./js/q.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
