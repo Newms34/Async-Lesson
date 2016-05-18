@@ -123,7 +123,7 @@ var weathMultiAsyncPromQ = function() {
         if (weathers.length) {
             $('#reportBlok').append('<br/>Nice and compact!')
         }
-        $('#reportType').html('Multiple Asynchronous Requests, with Callbacks')
+        $('#reportType').html('Multiple Asynchronous Requests, with Promises')
         $('#reportBlok').css('background', $('#reportBlok').html() == 'undefined' ? '#fcc' : '#cfc');
         $('#reportStat').html('Done');
     })
