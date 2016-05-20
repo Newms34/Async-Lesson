@@ -121,16 +121,18 @@
         </p>
     </div>
     <div id='report'>
-        <h4>Method:</h4>
+    <div id='navi'><button onclick='chMod(0);'>Prev!&leftarrow;</button><span id='modNum'>1/5</span><button onclick='chMod(1);'>Next!&rightarrow;</button></div>
+        <h4 title='How we&rsquo;re attempting to get our data'>Method:</h4>
         <p id='reportType'>None yet!</p>
-        <h4>Status</h4>
+        <h4 title='Are we still getting the data?'>Status</h4>
         <p id='reportStat'>N/A</p>
-        <h4>Result:</h4>
+        <h4 title='What the data say WHEN we read it'>Result:</h4>
         <p id='reportBlok'>None yet!</p>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
     <script src="./js/q.js"></script>
     <script src="./js/main.js"></script>
+    <script src="./js/moduleHider.js"></script>
 </body>
 
 </html>

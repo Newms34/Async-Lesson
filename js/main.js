@@ -89,10 +89,12 @@ var weathMultiAsyncCb = function() {
 }
 
 var weathMultiAsyncPromQ = function() {
+    //attemptig to run multiple asynchronous requests, with promises
   $('#reportStat').html('Working!');
     var theCities = ['Philadelphia,PA', 'Phoenix, AZ', 'Norilsk', 'New Delhi', 'London,UK'];
     var cityToAdd ='blank'; 
 
+    // we can even add some!
     while(cityToAdd && cityToAdd!='' && cityToAdd!=null){
       cityToAdd = prompt('Feel like adding another city? Type it here! Or press Cancel to finish!');
       if(cityToAdd && cityToAdd!='' && cityToAdd!=null) theCities.push(cityToAdd);

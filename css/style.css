@@ -27,3 +27,18 @@ pre {
 #reportBlok {
   padding: 2px;
 }
+
+#report button{
+  border-radius: 5px 6px;
+  background:#aca;
+  padding:6px;
+  font-weight:bold;
+  transition-duration:.2s;
+  cursor:pointer;
+}
+#report button:hover{
+  background:#cfc;
+}
+#modNum{
+  padding:6px;
+}
