@@ -17,6 +17,6 @@ window.onmouseup = function(e) {
         numShown++;
         $(window).scrollTop($(window).height());
     } else {
-
+        $('#moar').hide()
     }
 }
