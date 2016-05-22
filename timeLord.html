@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Time Complexity</title>
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+</head>
+
+<body>
+    <div class='navbar'>
+        <a href="./index.html">Async</a> <a href="./timeLord.html">Time Complexity</a>
+    </div>
+    <div id='mainTC'>
+        <h2>Time Complexity</h2>
+        <p>Time complexity is a complex (hah!) subject, but here's the basic gist:
+            <br/>
+            <ol>
+                <li>Take some sort of operation. For this example, I'll pretend I'm asking my friends Bob, Bill, Betty, and Bianca to a party.</li>
+                <li>Let's assume that I can only set a crucial detail of the party - how much pizza I need to order - after I know <i>everyone's</i> responses.</li>
+                <li>We saw in <a href="./index.html">Async</a> two ways to do this:
+                    <ul>
+                        <li>Callback Hell</li>
+                        <li>Promises</li>
+                    </ul>
+                </li>
+                <li>But there's a THIRD way!:
+                    <pre>//We are, of course, assuming a lot of the following functions/URIs exist
+//buyPizza() is, surprisingly, not a valid JS function
+var numResp = 0;//number of responses obtained
+var resps=[];//the responses themselves
+var friends = ['bob','bill','betty','bianca']
+var getResp = function(){
+	$.get('addressOf'+friends[numResp],function(thisResp){
+		resps.push(thisResp);
+		numResp++;
+		if(friends[numRespsi]){
+			//still more friends, so keep goin!
+			getResp();
+		}else{
+			//everyone responded!
+			buyPizza(resps.length);
+		}
+	})
+}
+getResp();//start it off!
+</pre>
+                </li>
+                <li>Why didn't I suggest this method? Well, this uses something called recursion, wherein the function basically calls <i>itself</i>. This pushes another 'copy' of the function onto the call stack, and means our browser now needs to keep track of that function, PLUS the 'child' function, and so on.</li>
+                <li> So recursion isnt' good!</li>
+            </ol>
+        </p><hr/>
+        <p class='confooz'><i>Still confused? Let's look at a simpler example:</i>
+            <ol>
+                <li>I've got an array <pre>var myBeasts</pre> of objects <pre>{}</pre>where each object represents a beastie &#128006;.</li>
+                <li>Each object has a <pre>target</pre> property that indicates which of the other beasties &#128006; it's targetting.</li>
+                <li>I run a simulation in which the beasties &#128006; interact.</li>
+                <li>Each time the simulation clock 'ticks', I need to do the following:
+                <pre>
+for (var i=0;i&gt;myBeasts.length;i++){
+	//loop thru ALL beasts
+	for (var j=0;j&gt;myBeasts.length;j++){
+		if (myBeasts[j].name = = myBeasts[i].target) {
+			doInteraction();//assume this, i dunno, checks how far apart they are or something
+		}
+	}
+}
+</pre>
+                </li>
+                <li>So, what's the issue here? Well, consider that for any number of organisms <i>n</i>, we need to run <i>n<sup>2</sup></i> loop iterations. That's gonna end up being a large number, very quickly. From <a href="https://en.wikipedia.org/wiki/Time_complexity" target='_blank'>wikipedia</a>:
+                <cite>"the amount of time taken by an algorithm to run as a function of the length of the [...] input"</cite>
+                </li>
+                <li>When we're programming, we want to aim for the <i>lowest</i> time complexity possible. Some examples of different complexities:
+                <ul>
+                	<li>O(1): Time to complete operation does not change depending on the input. Assuming the basal function is quick, this is usualy ideal (but not always possible!)</li>
+                	<li>O(n): For any number of inputs <i>n</i>, the time to complete the operation increases linearly. So if 1 item takes 1 second, and 2 items take 2 seconds, then 3 items takes 3 seconds, and so on.</li>
+                	<li>O(log(n)): For any number of inputs <i>n</i>, the time to completion increases by the logarithm of <i>n</i>.</li>
+                	<li>O(n<sup>2</sup>): For any number of inputs <i>n</i>, the time to completion increases by the square of the input. My beasties &#128006; example above is O(n<sup>2</sup>).</li>
+                	<li>O(k<sup>n</sup>) (where <i>k</i> is some constant): For any number of inputs <i>n</i>, the time to completion increases by some number <i>k</i> raised to that number. This kinda function increases time complexity very quickly, so it's very undesirable (unless there are no other reasonable choices!).</li>
+                </ul></li>
+            </ol>
+        </p>
+        <p>Click for more!</p>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="./js/time.js"></script>
+</body>
+
+</html>
